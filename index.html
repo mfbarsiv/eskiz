@@ -189,6 +189,14 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stro
 .toast{position:absolute;left:50%;top:calc(66px + env(safe-area-inset-top,0px));transform:translateX(-50%);padding:9px 14px;font-size:14.5px;z-index:20;max-width:calc(100% - 32px);text-align:center}
 .cursor{position:absolute;pointer-events:none;border:1px solid rgba(28,36,33,.55);border-radius:50%;z-index:3;transform:translate(-50%,-50%)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+.lnw{display:flex;align-items:center;gap:10px;flex:none}.lnw[hidden]{display:none}
+.lnw .chips button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.impbar{position:absolute;z-index:7;top:76px;left:50%;transform:translateX(-50%);display:flex;flex-wrap:wrap;justify-content:center;gap:2px;padding:4px;max-width:calc(100% - 24px)}
+.impbar .ok{background:var(--accent);color:var(--accent-fg)}
+.szm{position:fixed;inset:0;background:rgba(18,36,31,.38);display:flex;align-items:center;justify-content:center;z-index:60}
+.szm .card{background:var(--chrome-solid,#fff);border-radius:16px;padding:18px;max-width:440px;width:calc(100% - 32px);display:flex;flex-direction:column;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.szm h3{margin:0;font-size:17px}.szm .row{display:flex;gap:8px;justify-content:flex-end}
+.szm p{margin:0;font-size:13px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -206,6 +214,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stro
       <button class="ab" id="bFit" title="Sayfayı sığdır"><svg class="i" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span class="lb">Sığdır</span></button>
       <button class="ab" id="bPanel" title="Kâğıt, ızgara, aydınger"><svg class="i" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M14 5v14"/></svg><span class="lb">Panel</span></button>
       <span class="sep"></span>
+      <button class="ab" id="bImg" title="Görsel ekle: ekran görüntüsü ya da resmi sayfanın altına koy"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-4 4 3 3-2 6 4"/><path d="M19 1v5M16.5 3.5h5" stroke-width="1.8"/></svg><span class="lb">Görsel</span></button><input type="file" id="imgIn" accept="image/*" hidden>
       <button class="ab" id="bSave" title="Sayfayı görsel olarak kaydet"><svg class="i" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg><span class="lb">Kaydet</span></button>
       <button class="ab rbtn" id="bRender" title="Render al"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.6"/></svg><span class="lb">Render</span></button>
     </div>
@@ -215,6 +224,8 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stro
     <div class="dotprev"><i id="dotp"></i></div>
     <div class="szw"><b id="szv">3</b><input type="range" id="sz" min="1" max="160" step="1" aria-label="Boyut"></div>
     <div class="szw" id="opw" title="Saydamlık"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 4a8 8 0 010 16z" fill="currentColor"/></svg><input type="range" id="opr" min="5" max="100" step="1" aria-label="Saydamlık"><b id="opv">%100</b></div>
+    <div class="lnw" id="lnw"><button class="ab" id="bRul" title="Düz çizgi aracı: iki nokta arasına eskiz çizgisi çeker"><svg class="i" viewBox="0 0 24 24"><path d="M5 19L19 5"/><circle cx="5" cy="19" r="1.6"/><circle cx="19" cy="5" r="1.6"/></svg><span class="lb">Düz</span></button>
+      <div class="szw" id="wobw" title="Eskiz hissi: 0 = cetvel gibi dümdüz, yüksek = elle çizilmiş"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M2 13c3-5 5 5 8 0s5 5 8 0 3-2 4-1"/></svg><input type="range" id="wob" min="0" max="100" step="1" aria-label="Eskiz hissi"><b id="wobv">%50</b></div></div>
     <span class="vsep"></span>
     <div class="chips" id="mko" hidden style="align-items:center;flex-wrap:nowrap"><button data-mt="kesik">Kesik uç</button><button data-mt="yuvarlak">Yuvarlak uç</button>
       <span class="szw" id="mkaw"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><line id="mkln" x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="4" stroke-linecap="butt"/></svg><input type="range" id="mka" min="0" max="180" step="5" aria-label="Uç açısı"><b id="mkv" style="min-width:36px">35°</b></span></div>
@@ -223,6 +234,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stro
     <label class="addc" title="Renk ekle">+<input type="color" id="addc" value="#2c4a7a" aria-label="Renk ekle"></label>
   </div>
   <aside class="panel bar" id="panel" hidden></aside>
+  <div class="impbar bar" id="impBar" hidden><button class="ab" id="impX">Vazgeç</button><button class="ab" id="impRot" title="90° döndür">↻ 90°</button><button class="ab" id="impFit" title="Görseli sayfaya sığdır">Sığdır</button><button class="ab" id="impPg" title="Sayfanın boyutunu görselin oranına getir" hidden>Sayfayı görsele uydur</button><button class="ab ok" id="impOk"><svg class="i" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Tamam</button></div>
   <div class="cropbar bar" id="cropBar" hidden><button class="ab" id="cropX" title="Vazgeç">Vazgeç</button><button class="ab ok" id="cropOk" title="Bu çerçeveyle render sekmesine geç"><svg class="i" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Render'a geç</button></div>
   <section class="rv" id="rv" hidden aria-label="Render">
     <header class="rvtop"><button class="ab" id="rvBack"><svg class="i" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Eskiz</button><b class="rvt">Render</b><button class="ab" id="rvRecrop" title="Çerçeveyi yeniden ayarla">Çerçeveyi değiştir</button><button class="ab" id="rvSetB" title="Servis ve API anahtarı"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>Ayarlar</button></header>
@@ -257,7 +269,7 @@ function toast(m,ms=3000){const t=$('#toast');t.textContent=m;t.hidden=false;cle
 const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
 
 /* ===== sayfa ve durum ===== */
-const PW=2400,PH=1700;
+let PW=2400,PH=1700;
 const BR=[
  {id:'kursun',ad:'Kurşun',sz:3,ic:'<path d="M4 20l3-1 11-11-2-2L5 17z"/><path d="M14 6l2 2"/><path d="M4 20l1-3" stroke-dasharray="1 1.5"/>'},
  {id:'ince',ad:'İnce uç',sz:3,ic:'<path d="M5 19L17 7"/><path d="M15 5l4 4-2 2-4-4z"/>'},
@@ -273,7 +285,7 @@ const BR=[
  {id:'el',ad:'El',ic:'<path d="M8 12V5.5a1.5 1.5 0 013 0V11M11 11V4a1.5 1.5 0 013 0v7M14 11V6a1.5 1.5 0 013 0v7c0 4-2.5 7-6 7-2.8 0-4.4-1.6-6-4.4l-1.4-2.4a1.4 1.4 0 012.3-1.5L8 13"/>'}];
 const BRUSH=Object.fromEntries(BR.filter(b=>b.id).map(b=>[b.id,b]));
 const PALETTE=[['Siyah','#16181b'],['Grafit','#3a3d40'],['Sıcak gri açık','#c4bdb2'],['Sıcak gri koyu','#8a8178'],['Soğuk gri açık','#b6bdc2'],['Soğuk gri koyu','#7c858c'],['Okr','#c58b3a'],['Ahşap','#9b6b43'],['Kiremit','#b5523b'],['Zeytin','#7d8a4a'],['Gök','#6f9fc8'],['Lacivert','#2c4a7a']];
-let D={paper:'eskiz',pat:'kare',patOn:true,patOp:.35,persp:0,perOn:true,perOp:.45,grid:{hy:PH*.44,v1:-PW*.55,v2:PW*1.55,c:PW/2,v3:[PW/2,PH*2.7]},sym:false,symX:PW/2,fog:.5,
+let D={paper:'eskiz',pat:'kare',patOn:true,patOp:.35,persp:0,perOn:true,perOp:.45,grid:{hy:PH*.44,v1:-PW*.55,v2:PW*1.55,c:PW/2,v3:[PW/2,PH*2.7]},sym:false,symX:PW/2,fog:.5,pw:2400,ph:1700,wob:.5,hold:600,snapA:true,autoLine:true,ruler:false,
   layers:[],active:null,seq:1,crops:[],cseq:1,mine:[],recent:[],sizes:{},ops:{},color:'#16181b',tool:'kursun',erMode:'sert',mkTip:'kesik',mkAng:35,renders:[]};
 
 /* ===== kâğıt dokusu ===== */
@@ -304,6 +316,26 @@ const LC=new Map();
 function layerById(id){return D.layers.find(l=>l.id===id)}
 const actL=()=>layerById(D.active)||D.layers[D.layers.length-1];
 
+
+/* ===== sayfa boyutu ===== */
+const SZS=[['A4',2400,1700],['A3',3400,2400],['A2',4800,3400],['Kare',2400,2400],['Geniş',4000,2400]];
+const MAXMEM=760e6;
+function setPageSize(w,h){PW=w;PH=h;D.pw=w;D.ph=h;SC.width=w;SC.height=h;tmpL.width=w;tmpL.height=h;WGW=Math.ceil(w/WG);WGH=Math.ceil(h/WG);for(const k in WET)delete WET[k];OPC=null;OPX=null;PM=null;PMX=null;paperC=null}
+function memOK(w,h,n){return w*h*4*(n+3)<=MAXMEM}
+function resizePage(w,h){if(w===PW&&h===PH)return true;if(!memOK(w,h,D.layers.length)){toast('Bu boyut tabletin belleği için fazla büyük. Daha küçük bir kâğıt seç ya da aydınger sayısını azalt.',4200);return false}
+  const ox=Math.round((w-PW)/2),oy=Math.round((h-PH)/2);const old=D.layers.map(L=>L.c);setPageSize(w,h);
+  D.layers.forEach(L=>{const nc=mk(w,h);nc.getContext('2d').drawImage(L.c,ox,oy);L.c=nc;L.x=nc.getContext('2d');dirty.add(L.id)});old.length=0;
+  const g=D.grid;g.hy+=oy;g.v1+=ox;g.v2+=ox;g.c+=ox;g.v3=[g.v3[0]+ox,g.v3[1]+oy];D.symX+=ox;D.crops.forEach(c=>{c.r[0]+=ox;c.r[1]+=oy});showCrop=null;R0=null;RC=null;$('#cropBar').hidden=true;
+  H.u=[];H.r=[];updUR();buildPaper();fit();need();saveSoon();return true}
+let NEWSZ=null,szSel={k:'A4',port:false};
+function szDims(sel){const e=SZS.find(x=>x[0]===sel.k)||SZS[0];let w=e[1],h=e[2];if(sel.port&&w>h)[w,h]=[h,w];return[w,h]}
+function szChips(sel,id){return `<div class="chips" id="${id}">${SZS.map(e=>`<button data-sk="${e[0]}" class="${sel.k===e[0]?'on':''}">${e[0]} · ${e[1]}×${e[2]}</button>`).join('')}</div>
+  <div class="chips" id="${id}o"><button data-so="0" class="${!sel.port?'on':''}">Yatay</button><button data-so="1" class="${sel.port?'on':''}">Dikey</button></div>`}
+function wireSz(root,sel,after){root.querySelectorAll('[data-sk]').forEach(b=>b.onclick=()=>{sel.k=b.dataset.sk;after()});root.querySelectorAll('[data-so]').forEach(b=>b.onclick=()=>{sel.port=b.dataset.so==='1';after()})}
+function askSize(cb){const sel={k:szSel.k,port:szSel.port};const m=document.createElement('div');m.className='szm';document.body.appendChild(m);
+  const draw=()=>{const[w,h]=szDims(sel);m.innerHTML=`<div class="card"><h3>Yeni sayfa · kâğıt boyutu</h3>${szChips(sel,'szq')}<p>${w} × ${h} px. Kalem boyutları aynı kalır; büyük kâğıtta çizim alanı genişler. A2 gibi büyük kâğıtlar eski tabletlerde yavaşlayabilir.</p><div class="row"><button class="btn" id="szNo">Vazgeç</button><button class="btn primary" id="szOk">Sayfayı aç</button></div></div>`;wireSz(m,sel,draw);
+    m.querySelector('#szNo').onclick=()=>m.remove();m.querySelector('#szOk').onclick=()=>{szSel={k:sel.k,port:sel.port};m.remove();cb(w,h)}};draw();m.addEventListener('pointerdown',e=>{if(e.target===m)m.remove()})}
+
 /* ===== görünüm ===== */
 const cv=$('#cv'),X=cv.getContext('2d');let VW=1,VH=1,DPR=1;const V={s:.4,tx:0,ty:0};
 const p2s=(x,y)=>[V.tx+x*V.s,V.ty+y*V.s];const s2p=(x,y)=>[(x-V.tx)/V.s,(y-V.ty)/V.s];
@@ -321,6 +353,7 @@ function render(){X.setTransform(DPR,0,0,DPR,0,0);X.fillStyle=getComputedStyle(d
   if(D.perOn&&D.persp)drawPersp();
   if(D.sym){const[sx]=p2s(D.symX,0);const[,y0]=p2s(0,0),[,y1]=p2s(0,PH);X.strokeStyle='rgba(224,96,60,.7)';X.setLineDash([8,6]);X.lineWidth=1.2;X.beginPath();X.moveTo(sx,y0);X.lineTo(sx,y1);X.stroke();X.setLineDash([])}
   drawCropUI();
+  if(IMP)impDraw();
   if(cropT){const[a,b]=p2s(Math.min(cropT.a[0],cropT.b[0]),Math.min(cropT.a[1],cropT.b[1]));const w=Math.abs(cropT.b[0]-cropT.a[0])*V.s,h=Math.abs(cropT.b[1]-cropT.a[1])*V.s;X.fillStyle='rgba(14,105,100,.08)';X.fillRect(a,b,w,h);X.strokeStyle='#0e6964';X.lineWidth=1.6;X.setLineDash([7,5]);X.strokeRect(a,b,w,h);X.setLineDash([])}
   if(showCrop){const c=D.crops.find(c=>c.id===showCrop);if(c){const[a,b]=p2s(c.r[0],c.r[1]);X.strokeStyle='#e0603c';X.lineWidth=2;X.strokeRect(a,b,c.r[2]*V.s,c.r[3]*V.s)}}}
 function drawPattern(x){const sp=40;x.save();x.globalAlpha=D.patOp;x.strokeStyle=x.fillStyle=D.paper==='kraft'?'#5b4630':'#5f8f9a';
@@ -371,16 +404,33 @@ function previewCore(L){const b=clipBB(stroke.bb);if(!b)return;tmpX.clearRect(b[
   const[m,a]=MODE[stroke.br];tmpX.globalCompositeOperation=m;tmpX.globalAlpha=a;tmpX.drawImage(SC,b[0],b[1],b[2],b[3],b[0],b[1],b[2],b[3]);tmpX.globalAlpha=1;tmpX.globalCompositeOperation='source-over';
   /* tmpL dışında kalan kısımlar katmanın kendisi olmalı: tam kopyayı ilk karede yap */}
 function clipBB(b){const x0=Math.max(0,Math.floor(b[0])),y0=Math.max(0,Math.floor(b[1])),x1=Math.min(PW,Math.ceil(b[2])),y1=Math.min(PH,Math.ceil(b[3]));return x1>x0&&y1>y0?[x0,y0,x1-x0,y1-y0]:null}
-function beginStroke(p,L){clearInterval(dwellT);stroke={br:D.tool,size:curSize(),op:curOp(),col:D.color,L,bb:[p[0],p[1],p[0],p[1]],last:p,sm:p,pts:[p.slice()]};SX.clearRect(0,0,PW,PH);
+function beginStroke(p,L){clearInterval(dwellT);stroke={br:D.tool,size:curSize(),op:curOp(),col:D.color,L,bb:[p[0],p[1],p[0],p[1]],last:p,sm:p,pts:[p.slice()],lm:performance.now(),hp:p.slice()};clearInterval(holdT);SX.clearRect(0,0,PW,PH);
   tmpX.clearRect(0,0,PW,PH);tmpX.drawImage(L.c,0,0);seg(p,[p[0]+.01,p[1]+.01,p[2]]);if(stroke.br==='dolma'){SX.fillStyle=stroke.col;SX.beginPath();SX.arc(p[0],p[1],stroke.size*.55,0,7);SX.fill()}
-  if(stroke.br==='sulu'){stroke.pools=[];stroke.chk=p.slice();dwellT=setInterval(dwell,110)}need()}
+  if(stroke.br==='sulu'){stroke.pools=[];stroke.chk=p.slice();dwellT=setInterval(dwell,110)}
+  else if(D.ruler){stroke.snap=true;stroke.a=p.slice();stroke.e=p.slice();stroke.seed=Math.random()*1000;stroke.lpr=.6;stroke.v=1}
+  else if(D.autoLine!==false){holdT=setInterval(holdChk,90)}need()}
 /* suluboya: kalem bir noktada beklerse boya orada birikir ve yayılır */
+
+/* ===== düz çizgi: eskiz hissi korunur ===== */
+let holdT=0;
+function snapEnd(a,e){if(!D.snapA)return e;const dx=e[0]-a[0],dy=e[1]-a[1],L=Math.hypot(dx,dy);if(L<1)return e;const ang=Math.atan2(dy,dx),st=Math.PI/4,k=Math.round(ang/st),d=Math.abs(ang-k*st);if(d>3.5*Math.PI/180)return e;return[a[0]+Math.cos(k*st)*L,a[1]+Math.sin(k*st)*L,e[2]]}
+function hrand(seed,i){const x=Math.sin(seed*127.1+i*311.7)*43758.5453;return x-Math.floor(x)}
+function linePts(a,e,seed,pr){const dx=e[0]-a[0],dy=e[1]-a[1],L=Math.hypot(dx,dy),w=D.wob??.5;if(L<1)return[[a[0],a[1],pr],[e[0]+.01,e[1]+.01,pr]];
+  const ux=dx/L,uy=dy/L,nx=-uy,ny=ux,ov=w*Math.min(9,L*.012),A=w*Math.min(5.5,L*.006+.8);const f1=Math.max(.7,L/520),f2=Math.max(1.3,L/190),p1=hrand(seed,1)*6.283,p2=hrand(seed,2)*6.283,sgn=hrand(seed,3)<.5?-1:1;
+  const n=Math.max(2,Math.ceil(L/9)),P=[];for(let i=0;i<=n;i++){const t=i/n;const along=-ov+(L+2*ov)*t;const env=Math.pow(Math.sin(Math.PI*t),.6);
+    const off=sgn*A*env*(.65*Math.sin(6.283*f1*t+p1)+.35*Math.sin(6.283*f2*t+p2));const q=pr*(.8+.2*Math.sin(Math.PI*t));
+    P.push([a[0]+ux*along+nx*off,a[1]+uy*along+ny*off,q])}return P}
+function updateLine(){const st=stroke;if(!st||!st.snap)return;const ob=clipBB(st.bb);if(ob){SX.clearRect(ob[0],ob[1],ob[2],ob[3]);tmpX.clearRect(ob[0],ob[1],ob[2],ob[3]);tmpX.drawImage(st.L.c,ob[0],ob[1],ob[2],ob[3],ob[0],ob[1],ob[2],ob[3])}
+  st.bb=[st.a[0],st.a[1],st.a[0],st.a[1]];const e=snapEnd(st.a,st.e);const P=linePts(st.a,e,st.seed,st.lpr);let prev=P[0];for(let i=1;i<P.length;i++){seg(prev,P[i]);prev=P[i]}need()}
+function snapNow(){const st=stroke;if(!st||st.snap)return;let pr=0,n=0;for(const q of st.pts){pr+=q[2];n++}st.lpr=n?pr/n:.5;st.a=st.pts[0].slice();st.e=st.sm.slice();st.seed=Math.random()*1000;st.v=1;st.snap=true;
+  const ob=clipBB(st.bb);SX.clearRect(0,0,PW,PH);tmpX.clearRect(0,0,PW,PH);tmpX.drawImage(st.L.c,0,0);st.bb=[st.a[0],st.a[1],st.a[0],st.a[1]];updateLine();try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}}
+function holdChk(){const st=stroke;if(!st||st.snap){clearInterval(holdT);return}if(performance.now()-st.lm<(D.hold||600))return;const d=Math.hypot(st.sm[0]-st.pts[0][0],st.sm[1]-st.pts[0][1])*V.s;if(d<28||st.pts.length<4)return;snapNow()}
 let dwellT=0;
 function dwell(){if(!stroke||stroke.br!=='sulu'){clearInterval(dwellT);return}const s=stroke.sm,c=stroke.chk;if(Math.hypot(s[0]-c[0],s[1]-c[1])*V.s>4){stroke.chk=s.slice();return}
   let pl=stroke.pools[stroke.pools.length-1];if(!pl||Math.hypot(pl.x-s[0],pl.y-s[1])>stroke.size*.4){pl={x:s[0],y:s[1],amt:0};stroke.pools.push(pl)}if(pl.amt>=14)return;pl.amt++;
   const r=stroke.size*(.45+.09*pl.amt);SX.fillStyle=stroke.col;SX.beginPath();SX.arc(pl.x,pl.y,r,0,7);SX.fill();grow([pl.x,pl.y],[pl.x,pl.y],r*1.4);need()}
-function moveStroke(p){const nw=performance.now();if(stroke.t0){const d=Math.hypot(p[0]-stroke.sm[0],p[1]-stroke.sm[1])*V.s,dt=Math.max(1,nw-stroke.t0);stroke.v=(stroke.v||0)*.8+(d/dt)*.2}stroke.t0=nw;const s=stroke.sm,k=stroke.br==='ince'||stroke.br==='kursun'?.55:.45;const q=[s[0]+(p[0]-s[0])*k,s[1]+(p[1]-s[1])*k,p[2]];if(Math.hypot(q[0]-s[0],q[1]-s[1])<.4)return;seg(s,q);stroke.sm=q;stroke.pts.push(q.slice());need()}
-function endStroke(){clearInterval(dwellT);const st=stroke;const L=st.L;if(st.br==='sulu'){const pd=st.size*1.25;st.bb=[st.bb[0]-pd,st.bb[1]-pd,st.bb[2]+pd,st.bb[3]+pd]}const b=clipBB(st.bb);stroke=null;if(!b){need();return}
+function moveStroke(p){const nw=performance.now();if(stroke.snap){stroke.e=p.slice();stroke.lm=nw;updateLine();return}if(Math.hypot(p[0]-stroke.hp[0],p[1]-stroke.hp[1])*V.s>5){stroke.hp=p.slice();stroke.lm=nw}if(stroke.t0){const d=Math.hypot(p[0]-stroke.sm[0],p[1]-stroke.sm[1])*V.s,dt=Math.max(1,nw-stroke.t0);stroke.v=(stroke.v||0)*.8+(d/dt)*.2}stroke.t0=nw;const s=stroke.sm,k=stroke.br==='ince'||stroke.br==='kursun'?.55:.45;const q=[s[0]+(p[0]-s[0])*k,s[1]+(p[1]-s[1])*k,p[2]];if(Math.hypot(q[0]-s[0],q[1]-s[1])<.4)return;seg(s,q);stroke.sm=q;stroke.pts.push(q.slice());need()}
+function endStroke(){clearInterval(dwellT);clearInterval(holdT);const st=stroke;const L=st.L;if(st.br==='sulu'){const pd=st.size*1.25;st.bb=[st.bb[0]-pd,st.bb[1]-pd,st.bb[2]+pd,st.bb[3]+pd]}const b=clipBB(st.bb);stroke=null;if(!b){need();return}
   const before=L.x.getImageData(b[0],b[1],b[2],b[3]);
   if(st.br==='sulu'){commitWash(st,L,b)}
   else if(st.br==='kursun'){const g=mk(b[2],b[3]),gx=g.getContext('2d');gx.drawImage(SC,b[0],b[1],b[2],b[3],0,0,b[2],b[3]);gx.globalCompositeOperation='destination-in';gx.translate(-b[0],-b[1]);gx.fillStyle=toothPat(gx,'kursun','#000000');gx.fillRect(b[0],b[1],b[2],b[3]);
@@ -430,7 +480,7 @@ function commitWash(st,L,b){const pad=Math.ceil(st.size*.6);const x0=Math.max(0,
   L.x.globalCompositeOperation='multiply';L.x.drawImage(W,x0,y0);if(Wt){L.x.globalAlpha=.85;L.x.drawImage(Wt,x0,y0)}L.x.globalAlpha=.9;L.x.drawImage(E,x0,y0);L.x.drawImage(E,x0,y0);L.x.globalAlpha=1;L.x.globalCompositeOperation='source-over';
   markWet(L.id,O.P,st.size)}
 /* ıslaklık haritası: 16 piksellik hücreler, 30 saniyede kurur */
-const WG=16,WGW=Math.ceil(PW/WG),WGH=Math.ceil(PH/WG),WET={},WETMS=30000;
+const WG=16,WET={},WETMS=30000;let WGW=Math.ceil(PW/WG),WGH=Math.ceil(PH/WG);
 function markWet(id,P,sz){const g=WET[id]||(WET[id]=new Float64Array(WGW*WGH));const now=performance.now(),r=Math.ceil(sz*.7/WG);for(const p of P){const cx=Math.floor(p[0]/WG),cy=Math.floor(p[1]/WG);for(let y=cy-r;y<=cy+r;y++)for(let x=cx-r;x<=cx+r;x++){if(x<0||y<0||x>=WGW||y>=WGH)continue;if(Math.hypot(x-cx,y-cy)<=r+.5)g[y*WGW+x]=now}}}
 function wetMask(id,x0,y0,w,h){const g=WET[id];if(!g)return null;const now=performance.now();const gx0=Math.floor(x0/WG),gy0=Math.floor(y0/WG),gx1=Math.ceil((x0+w)/WG),gy1=Math.ceil((y0+h)/WG);const gw=gx1-gx0,gh=gy1-gy0;if(gw<1||gh<1)return null;
   const c=mk(gw,gh),cx=c.getContext('2d'),im=cx.createImageData(gw,gh);let any=false;for(let y=0;y<gh;y++)for(let x=0;x<gw;x++){const X=gx0+x,Y=gy0+y;if(X<0||Y<0||X>=WGW||Y>=WGH)continue;const t=g[Y*WGW+X];if(!t)continue;const wv=clamp(1-(now-t)/WETMS,0,1);if(wv>0){any=true;im.data[(y*gw+x)*4+3]=Math.round(clamp(wv*1.6,0,1)*255)}}
@@ -449,6 +499,33 @@ function compose(ctx,ox,oy,sc){ctx.save();ctx.scale(sc,sc);ctx.translate(-ox,-oy
 function pick(x,y){const c=mk(1,1),cx=c.getContext('2d');compose(cx,x,y,1);const d=cx.getImageData(0,0,1,1).data;const h='#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');setColor(h);addRecent(h);toast('Renk alındı: '+h,1800)}
 function cropImg(r,maxW){const s=Math.min(1,maxW/r[2]);const c=mk(Math.max(1,Math.round(r[2]*s)),Math.max(1,Math.round(r[3]*s)));compose(c.getContext('2d'),r[0],r[1],s);return c}
 
+
+/* ===== görsel ekle: ekran görüntüsü / resim, sayfanın altına ayrı katman olarak ===== */
+let IMP=null;
+function impFit(){const I=IMP;const s=Math.min(PW*.92/I.w,PH*.92/I.h);I.s=s;I.rot=0;I.cx=PW/2;I.cy=PH/2;need()}
+function isBlank(){const c=mk(64,64),x=c.getContext('2d');D.layers.forEach(L=>x.drawImage(L.c,0,0,64,64));const d=x.getImageData(0,0,64,64).data;for(let i=3;i<d.length;i+=4)if(d[i]>0)return false;return true}
+async function startImport(file){if(IMP||RC)return;let bm;try{bm=await createImageBitmap(file)}catch(e){toast('Bu görsel açılamadı.',2600);return}
+  IMP={bm,w:bm.width,h:bm.height,s:1,rot:0,cx:PW/2,cy:PH/2,g:null};impFit();$('#impBar').hidden=false;$('#impPg').hidden=!isBlank();toast('Görseli sürükleyerek taşı, iki parmakla büyüt / döndür. Hazır olunca Tamam.',3600);need()}
+function impCommit(){const I=IMP;const L=newLayer('Görsel',false);const x=L.x;x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.save();x.translate(I.cx,I.cy);x.rotate(I.rot);x.scale(I.s,I.s);x.drawImage(I.bm,-I.w/2,-I.h/2);x.restore();
+  D.layers.unshift(L);dirty.add(L.id);impEnd();renderPanel();need();saveSoon();toast('Görsel sayfanın en altına eklendi. Üstüne çizebilirsin; Panel’den gizleyebilir ya da silebilirsin.',4200)}
+function impEnd(){IMP=null;$('#impBar').hidden=true;need()}
+function impDraw(){const I=IMP;if(!I)return;X.save();X.translate(V.tx,V.ty);X.scale(V.s,V.s);X.translate(I.cx,I.cy);X.rotate(I.rot);X.scale(I.s,I.s);X.imageSmoothingEnabled=true;X.imageSmoothingQuality='high';X.drawImage(I.bm,-I.w/2,-I.h/2);
+  X.lineWidth=2/(V.s*I.s);X.strokeStyle='#e0603c';X.setLineDash([8/(V.s*I.s),6/(V.s*I.s)]);X.strokeRect(-I.w/2,-I.h/2,I.w,I.h);X.restore()}
+function impGesture(){const I=IMP;const P=[...ptr.values()];if(P.length>=2){const[a,b]=P,d=Math.hypot(a.x-b.x,a.y-b.y)||1,ang=Math.atan2(b.y-a.y,b.x-a.x),mx=(a.x+b.x)/2,my=(a.y+b.y)/2;const p0=s2p(mx,my);I.g={k:2,d,ang,mx,my,s:I.s,rot:I.rot,vx:I.cx-p0[0],vy:I.cy-p0[1]}}
+  else if(P.length===1){const a=P[0];I.g={k:1,x:a.x,y:a.y,cx:I.cx,cy:I.cy}}else I.g=null}
+function impDown(e){impGesture()}
+function impMove(e){const I=IMP,g=I.g;if(!g)return;const P=[...ptr.values()];
+  if(g.k===2&&P.length>=2){const[a,b]=P,d=Math.hypot(a.x-b.x,a.y-b.y)||1,ang=Math.atan2(b.y-a.y,b.x-a.x),mx=(a.x+b.x)/2,my=(a.y+b.y)/2;const k=d/g.d,dr=ang-g.ang;const c=Math.cos(dr),sn=Math.sin(dr);
+    I.s=clamp(g.s*k,.02,20);I.rot=g.rot+dr;const m=s2p(mx,my);const f=I.s/g.s;I.cx=m[0]+(g.vx*c-g.vy*sn)*f;I.cy=m[1]+(g.vx*sn+g.vy*c)*f;need()}
+  else if(g.k===1&&P.length===1){const a=P[0];I.cx=g.cx+(a.x-g.x)/V.s;I.cy=g.cy+(a.y-g.y)/V.s;need()}}
+function impUp(e){impGesture()}
+$('#bImg').onclick=()=>{if(IMP)return;$('#imgIn').click()};
+$('#imgIn').onchange=e=>{const f=e.target.files[0];e.target.value='';if(f)startImport(f)};
+$('#impX').onclick=impEnd;$('#impOk').onclick=impCommit;$('#impFit').onclick=()=>{if(IMP)impFit()};$('#impRot').onclick=()=>{if(IMP){IMP.rot+=Math.PI/2;need()}};
+$('#impPg').onclick=()=>{const I=IMP;if(!I)return;const asp=I.w/I.h;let w,h;const big=Math.max(2400,Math.min(4800,Math.max(I.w,I.h)));if(asp>=1){w=big;h=Math.round(big/asp)}else{h=big;w=Math.round(big*asp)}
+  if(!memOK(w,h,D.layers.length+1)){const f=Math.sqrt(MAXMEM/((D.layers.length+4)*4)/(w*h));w=Math.floor(w*f);h=Math.floor(h*f)}
+  const keep={...I};if(resizePage(w,h)){IMP=keep;IMP.g=null;impFit();IMP.s=Math.min(PW/IMP.w,PH/IMP.h);$('#impPg').hidden=true;toast('Sayfa görselin oranına getirildi: '+PW+'×'+PH,2800)}};
+
 /* ===== giriş ===== */
 const ptr=new Map();let penSeen=false,act=null,cropT=null,gridEdit=false,showCrop=null;
 cv.addEventListener('contextmenu',e=>e.preventDefault());
@@ -456,9 +533,10 @@ function pp(e){const[x,y]=s2p(e.offsetX,e.offsetY);const p=e.pointerType==='pen'
 cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);if(e.pointerType==='pen')penSeen=true;
   if(e.pointerType==='touch'&&act&&act.k==='draw'&&act.type==='pen')return;
   ptr.set(e.pointerId,{x:e.offsetX,y:e.offsetY,t:e.pointerType});
+  if(IMP){impDown(e);return}
   if(RC&&!act&&!(e.pointerType==='touch'&&penSeen)&&e.button!==1&&e.button!==2){act={k:'rc',id:e.pointerId,c:cropDown(e)};return}
   const touches=[...ptr.values()].filter(p=>p.t==='touch');
-  if(act&&act.k==='draw'&&act.type==='touch'&&touches.length>1){stroke=null;SX.clearRect(0,0,PW,PH);act=null;need()}
+  if(act&&act.k==='draw'&&act.type==='touch'&&touches.length>1){clearInterval(holdT);stroke=null;SX.clearRect(0,0,PW,PH);act=null;need()}
   if(touches.length>=2){const[a,b]=touches;act={k:'pinch',d:Math.hypot(a.x-b.x,a.y-b.y),cx:(a.x+b.x)/2,cy:(a.y+b.y)/2,s:V.s,tx:V.tx,ty:V.ty};return}
   if(act)return;
   if(gridEdit&&D.persp){const h=vpList().findIndex(vp=>{const[sx,sy]=p2s(vp[0],vp[1]);return Math.hypot(clamp(sx,8,VW-8)-e.offsetX,clamp(sy,8,VH-8)-e.offsetY)<22});if(h>=0){act={k:'vp',i:h,id:e.pointerId};return}
@@ -470,7 +548,7 @@ cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);if(e.poi
   if(D.tool==='kirp'){cropT={a:[clamp(p[0],0,PW),clamp(p[1],0,PH)],b:[clamp(p[0],0,PW),clamp(p[1],0,PH)]};act={k:'crop',id:e.pointerId};need();return}
   const L=actL();if(!L.vis){toast('Etkin aydınger gizli. Paneldeki göz simgesinden aç.',2600);act={k:'void',id:e.pointerId};return}
   act={k:'draw',id:e.pointerId,type:e.pointerType};beginStroke(p,L)});
-cv.addEventListener('pointermove',e=>{const q=ptr.get(e.pointerId);if(q){q.x=e.offsetX;q.y=e.offsetY}if(RC)$('#cur').hidden=true;else cursorAt(e);if(!act)return;
+cv.addEventListener('pointermove',e=>{const q=ptr.get(e.pointerId);if(q){q.x=e.offsetX;q.y=e.offsetY}if(IMP){impMove(e);return}if(RC)$('#cur').hidden=true;else cursorAt(e);if(!act)return;
   if(act.k==='rc'&&e.pointerId===act.id){cropMove(act.c,e);return}
   if(act.k==='pinch'){const T=[...ptr.values()].filter(p=>p.t==='touch');if(T.length<2)return;const[a,b]=T;const d=Math.hypot(a.x-b.x,a.y-b.y),cx=(a.x+b.x)/2,cy=(a.y+b.y)/2;const s=clamp(act.s*d/act.d,.08,6);
     V.tx=cx-(act.cx-act.tx)*(s/act.s);V.ty=cy-(act.cy-act.ty)*(s/act.s);V.s=s;need();return}
@@ -480,22 +558,23 @@ cv.addEventListener('pointermove',e=>{const q=ptr.get(e.pointerId);if(q){q.x=e.o
   if(act.k==='crop'){const p=pp(e);cropT.b=[clamp(p[0],0,PW),clamp(p[1],0,PH)];need();return}
   if(act.k==='vp'){const[x,y]=s2p(e.offsetX,e.offsetY);const g=D.grid;if(D.persp===1)g.c=x;else if(act.i===0)g.v1=x;else if(act.i===1)g.v2=x;else g.v3=[x,y];if(act.i<2)g.hy=y;need();return}
   if(act.k==='hor'){D.grid.hy=s2p(0,e.offsetY)[1];need();return}});
-function endP(e){ptr.delete(e.pointerId);if(!act)return;
+function endP(e){ptr.delete(e.pointerId);if(IMP){impUp(e);return}if(!act)return;
   if(act.k==='pinch'){if([...ptr.values()].filter(p=>p.t==='touch').length<2)act=null;return}
   if(e.pointerId!==act.id)return;const k=act.k;act=null;
   if(k==='draw'&&stroke)endStroke();
   else if(k==='crop'){const a=cropT.a,b=cropT.b;cropT=null;const r=[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.abs(b[0]-a[0]),Math.abs(b[1]-a[1])].map(Math.round);
     if(r[2]>40&&r[3]>40){const c={id:D.cseq++,r,t:cropImg(r,360).toDataURL('image/jpeg',.82)};D.crops.push(c);renderPanel();saveSoon();toast('Kırpım '+c.id+' eklendi. Render sekmesi gelince buradan gönderilecek.',3200);if($('#panel').hidden)openPanel(true)}need()}
   else if(k==='vp'||k==='hor')saveSoon()}
-cv.addEventListener('pointerup',endP);cv.addEventListener('pointercancel',e=>{clearInterval(dwellT);if(act&&act.k==='draw'&&e.pointerId===act.id){stroke=null;SX.clearRect(0,0,PW,PH);act=null;need()}endP(e)});
+cv.addEventListener('pointerup',endP);cv.addEventListener('pointercancel',e=>{clearInterval(dwellT);clearInterval(holdT);if(act&&act.k==='draw'&&e.pointerId===act.id){stroke=null;SX.clearRect(0,0,PW,PH);act=null;need()}endP(e)});
 cv.addEventListener('pointerleave',()=>{$('#cur').hidden=true});
-cv.addEventListener('wheel',e=>{e.preventDefault();const k=Math.exp(-e.deltaY*.0015);const s=clamp(V.s*k,.08,6);V.tx=e.offsetX-(e.offsetX-V.tx)*(s/V.s);V.ty=e.offsetY-(e.offsetY-V.ty)*(s/V.s);V.s=s;need()},{passive:false});
+cv.addEventListener('wheel',e=>{e.preventDefault();const k=Math.exp(-e.deltaY*.0015);if(IMP){IMP.s=clamp(IMP.s*k,.02,20);need();return}const s=clamp(V.s*k,.08,6);V.tx=e.offsetX-(e.offsetX-V.tx)*(s/V.s);V.ty=e.offsetY-(e.offsetY-V.ty)*(s/V.s);V.s=s;need()},{passive:false});
 function cursorAt(e){const c=$('#cur');if(!BRUSH[D.tool]||!BRUSH[D.tool].sz||e.pointerType==='touch'){c.hidden=true;return}const d=Math.max(4,curSize()*V.s);c.hidden=false;c.style.left=e.offsetX+'px';c.style.top=e.offsetY+'px';c.style.width=c.style.height=d+'px'}
 
 /* ===== arayüz ===== */
 function renderRail(){$('#rail').innerHTML=BR.map(b=>b.sep?'<span class="rsep"></span>':`<button class="tb${D.tool===b.id?' on':''}" data-t="${b.id}" title="${b.ad}"><svg class="i" viewBox="0 0 24 24">${b.ic}</svg>${b.ad}</button>`).join('');
   $('#rail').querySelectorAll('[data-t]').forEach(b=>b.onclick=()=>setTool(b.dataset.t))}
-function setTool(t){D.tool=t;renderRail();$('#mko').hidden=t!=='marker';updMk();$('#erm').hidden=t!=='silgi';$('#pal').hidden=t==='silgi';document.querySelectorAll('[data-er]').forEach(b=>b.classList.toggle('on',b.dataset.er===(D.erMode||'sert')));const has=!!(BRUSH[t]&&BRUSH[t].sz);$('#sz').disabled=!has;if(has){$('#sz').value=curSize();$('#szv').textContent=curSize()}const ho=has&&t!=='silgi';$('#opw').hidden=!ho;if(ho){const o=Math.round(curOp()*100);$('#opr').value=o;$('#opv').textContent='%'+o}updDot();cv.style.cursor=t==='el'?'grab':t==='damla'?'copy':'crosshair';
+function updLn(){$('#bRul').classList.toggle('on',!!D.ruler);$('#wob').value=Math.round((D.wob??.5)*100);$('#wobv').textContent='%'+Math.round((D.wob??.5)*100)}
+function setTool(t){D.tool=t;renderRail();$('#mko').hidden=t!=='marker';updMk();$('#erm').hidden=t!=='silgi';$('#pal').hidden=t==='silgi';document.querySelectorAll('[data-er]').forEach(b=>b.classList.toggle('on',b.dataset.er===(D.erMode||'sert')));const has=!!(BRUSH[t]&&BRUSH[t].sz);$('#lnw').hidden=!has||t==='sulu';updLn();$('#sz').disabled=!has;if(has){$('#sz').value=curSize();$('#szv').textContent=curSize()}const ho=has&&t!=='silgi';$('#opw').hidden=!ho;if(ho){const o=Math.round(curOp()*100);$('#opr').value=o;$('#opv').textContent='%'+o}updDot();cv.style.cursor=t==='el'?'grab':t==='damla'?'copy':'crosshair';
   if(t==='kirp')toast('Render için almak istediğin bölgeye bir çerçeve çiz.',2600);saveSoon()}
 function updDot(){const i=$('#dotp');const s=clamp(curSize()*V.s*1.2,3,28);i.style.width=i.style.height=s+'px';i.style.background=D.tool==='vurgu'?'#ffffff':D.tool==='silgi'?'transparent':D.color;i.style.boxShadow='0 0 0 1px var(--line)';i.style.opacity=(D.tool==='marker'?.55:D.tool==='sulu'?.4:1)*curOp()}
 function setColor(h){D.color=h;renderPal();updDot();saveSoon()}
@@ -509,6 +588,8 @@ document.querySelectorAll('[data-mt]').forEach(b=>b.onclick=()=>{D.mkTip=b.datas
 $('#mka').addEventListener('input',e=>{D.mkAng=+e.target.value;updMk();saveSoon()});
 document.querySelectorAll('[data-er]').forEach(b=>b.onclick=()=>{D.erMode=b.dataset.er;setTool('silgi')});
 $('#addc').addEventListener('change',e=>{const h=e.target.value;if(!D.mine.includes(h)&&!PALETTE.some(p=>p[1]===h))D.mine.push(h);setColor(h);toast('Renk paletine eklendi. Silmek için basılı tut.',2400)});
+$('#bRul').onclick=()=>{D.ruler=!D.ruler;updLn();saveSoon();toast(D.ruler?'Düz çizgi açık: kalemi bir noktaya koy, öbür noktaya sürükle. Bırakınca çizgi çizilir.':'Düz çizgi kapalı. Normal çizerken kalemi bir noktada bekletirsen yine düzleşir.',3200)};
+$('#wob').addEventListener('input',e=>{D.wob=e.target.value/100;updLn();saveSoon()});
 $('#opr').addEventListener('input',e=>{(D.ops||(D.ops={}))[D.tool]=e.target.value/100;$('#opv').textContent='%'+e.target.value;updDot();saveSoon()});
 $('#sz').addEventListener('input',e=>{D.sizes[D.tool]=+e.target.value;$('#szv').textContent=e.target.value;updDot();saveSoon()});
 const EYE='<svg class="i" viewBox="0 0 24 24" style="width:20px;height:20px"><path d="M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.5"/></svg>';
@@ -517,6 +598,12 @@ function openPanel(v){$('#panel').hidden=!v;$('#bPanel').classList.toggle('on',v
 function renderPanel(){const p=$('#panel');if(p.hidden)return;const sc=p.scrollTop;
   const chip=(grp,val,label,on)=>`<button data-${grp}="${val}" class="${on?'on':''}">${label}</button>`;
   let h=`<section class="psec"><div class="phead"><h2>Kâğıt</h2></div><div class="chips">${Object.entries(PAPERS).map(([k,v])=>chip('paper',k,v.ad,D.paper===k)).join('')}</div></section>`;
+  {const[cw,ch]=[PW,PH];const[nw,nh]=szDims(szSel);h+=`<section class="psec"><div class="phead"><h2>Kâğıt boyutu</h2><span>şu an ${cw}×${ch}</span></div>${szChips(szSel,'szp')}
+    <div class="prow"><button class="btn${(nw===cw&&nh===ch)?'':' primary'}" id="szApply" ${(nw===cw&&nh===ch)?'disabled':''}>${nw}×${nh} olarak uygula</button></div>
+    <p class="hint">Büyütünce çizimin ortada kalır, kenarlara boş kâğıt eklenir. Küçültünce kenarlar kesilir. Geri alma geçmişi sıfırlanır.</p></section>`}
+  h+=`<section class="psec"><div class="phead"><h2>Düz çizgi</h2></div><div class="chips">${chip('autol','1','Basılı tutunca düzleştir',D.autoLine!==false)}${chip('snapa','1','45° / 90°’ye yapış',!!D.snapA)}</div>
+    <div class="prow"><span class="lab">Bekleme</span><div class="chips">${[[400,'Kısa'],[600,'Orta'],[900,'Uzun']].map(([k,a])=>chip('hold',k,a,D.hold===k)).join('')}</div></div>
+    <p class="hint">Kalemi bir noktadan diğerine çekip bekle: çizgi eskiz hissini koruyarak düzleşir. Beklerken kalemi oynatırsan uç nokta çizgiyi yönlendirir. “Düz” düğmesi ise bekleme olmadan çizgi çeker.</p></section>`;
   h+=`<section class="psec"><div class="phead"><h2>Desen</h2></div><div class="chips">${[['bos','Boş'],['nokta','Noktalı'],['kare','Kareli'],['cizgi','Çizgili']].map(([k,a])=>chip('pat',k,a,D.pat===k)).join('')}</div>
     <div class="prow"><button class="eye${D.patOn?' on':''}" id="patEye" title="Göster/gizle">${D.patOn?EYE:EYEX}</button><span class="lab">Görünürlük</span><input type="range" id="patOp" min="5" max="100" value="${Math.round(D.patOp*100)}" aria-label="Desen görünürlüğü"></div></section>`;
   h+=`<section class="psec"><div class="phead"><h2>Perspektif ızgarası</h2></div><div class="chips">${[[0,'Yok'],[1,'Tek kaçış'],[2,'İki kaçış'],[3,'Üç kaçış']].map(([k,a])=>chip('persp',k,a,D.persp===k)).join('')}</div>
@@ -536,6 +623,8 @@ function renderPanel(){const p=$('#panel');if(p.hidden)return;const sc=p.scrollT
   p.querySelectorAll('[data-paper]').forEach(b=>b.onclick=()=>{D.paper=b.dataset.paper;buildPaper();renderPanel();need();saveSoon()});
   p.querySelectorAll('[data-pat]').forEach(b=>b.onclick=()=>{D.pat=b.dataset.pat;D.patOn=true;renderPanel();need();saveSoon()});
   p.querySelectorAll('[data-persp]').forEach(b=>b.onclick=()=>{D.persp=+b.dataset.persp;D.perOn=true;if(!D.persp)gridEdit=false;renderPanel();need();saveSoon()});
+  {const sl=p.querySelector('#szp');if(sl)wireSz(p,szSel,renderPanel);const ap=$('#szApply');if(ap)ap.onclick=()=>{const[nw,nh]=szDims(szSel);if((nw<PW||nh<PH)&&ap.dataset.arm!=='1'){ap.dataset.arm='1';ap.textContent='Kenarlar kesilecek. Emin misin?';setTimeout(()=>{if(ap.isConnected){ap.dataset.arm='';ap.textContent=nw+'×'+nh+' olarak uygula'}},3000);return}if(resizePage(nw,nh)){renderPanel();toast('Kâğıt boyutu '+nw+'×'+nh+' oldu.',2200)}}}
+  p.querySelectorAll('[data-autol]').forEach(b=>b.onclick=()=>{D.autoLine=D.autoLine===false;renderPanel();saveSoon()});p.querySelectorAll('[data-snapa]').forEach(b=>b.onclick=()=>{D.snapA=!D.snapA;renderPanel();saveSoon()});p.querySelectorAll('[data-hold]').forEach(b=>b.onclick=()=>{D.hold=+b.dataset.hold;renderPanel();saveSoon()});
   $('#patEye').onclick=()=>{D.patOn=!D.patOn;renderPanel();need();saveSoon()};$('#perEye').onclick=()=>{D.perOn=!D.perOn;renderPanel();need();saveSoon()};
   $('#patOp').oninput=e=>{D.patOp=e.target.value/100;D.patOn=true;need();saveSoon()};$('#perOp').oninput=e=>{D.perOp=e.target.value/100;D.perOn=true;need();saveSoon()};
   $('#gEdit').onclick=()=>{gridEdit=!gridEdit;renderPanel();need()};
@@ -722,6 +811,7 @@ async function saveNow(){if(saving){await saving;}saving=(async()=>{const meta={
   const ids=[...dirty];dirty.clear();for(const id of ids){const L=layerById(id);if(!L)continue;const blob=await new Promise(r=>L.c.toBlob(r,'image/png'));if(blob)await dbPut(LK(id),blob)}
   const pg=pgCur();if(pg){pg.date=Date.now();try{pg.thumb=pageThumb()}catch(e){}await savePages()}})();await saving;saving=null}
 async function load(){const m=await dbGet('M'+PG.cur);if(!m)return false;let o;try{o=JSON.parse(m)}catch(e){return false}if(Array.isArray(o.renders))o.renders.forEach(r=>{if(r.st==='run'){r.st='err';r.err='Render yarıda kaldı.'}});else o.renders=[];if(!o||!Array.isArray(o.layers)||!o.layers.length)return false;
+  o.pw=o.pw||2400;o.ph=o.ph||1700;setPageSize(o.pw,o.ph);
   const ls=o.layers;Object.assign(D,o);D.layers=[];for(const l of ls){const L=newLayer(l.name,l.fog);L.id=l.id;Object.assign(L,{vis:l.vis,op:l.op});const b=await dbGet(LK(l.id));if(b){try{const bm=await createImageBitmap(b);L.x.drawImage(bm,0,0)}catch(e){}}D.layers.push(L)}
   D.seq=Math.max(D.seq,...D.layers.map(l=>l.id+1));return true}
 
@@ -743,7 +833,7 @@ function renderBook(){const g=$('#dfGrid');const L=[...PG.list].sort((a,b)=>b.da
     <div class="nm"><input value="${esc(p.name)}" data-nm="${p.id}" aria-label="Sayfa adı" maxlength="60"></div><div class="dt">${fmtD(p.date)}${p.id===PG.cur?' · açık':''}</div>
     <div class="row"><button class="btn" data-dup="${p.id}">Çoğalt</button><button class="btn" data-png="${p.id}">PNG</button><button class="btn del" data-del="${p.id}">Sil</button></div></div>`).join('');
   $('#dfNote').textContent=PG.list.length+' sayfa. Çizimler bu tablette, bu tarayıcının içinde saklanır. Tarayıcı verisini silersen ya da tablet değişirse kaybolmaması için ara ara “Yedek al” de; dosyayı Drive’a koyabilirsin.';
-  $('#pgNew').onclick=async()=>{const id=PG.seq++;PG.list.push({id,name:'Sayfa '+id,date:Date.now()});if(await openPage(id))closeBook();else PG.list=PG.list.filter(p=>p.id!==id)};
+  $('#pgNew').onclick=()=>askSize(async(w,h)=>{const id=PG.seq++;PG.list.push({id,name:'Sayfa '+id,date:Date.now()});NEWSZ=[w,h];if(await openPage(id))closeBook();else PG.list=PG.list.filter(p=>p.id!==id);NEWSZ=null});
   g.querySelectorAll('[data-open]').forEach(b=>b.onclick=async()=>{const id=+b.dataset.open;if(id===PG.cur){closeBook();return}if(await openPage(id))closeBook()});
   g.querySelectorAll('[data-nm]').forEach(i=>i.onchange=()=>{const p=PG.list.find(x=>x.id===+i.dataset.nm);if(!p)return;p.name=i.value.trim()||p.name;i.value=p.name;savePages();if(p.id===PG.cur)$('#pgName').textContent=p.name});
   g.querySelectorAll('[data-dup]').forEach(b=>b.onclick=async()=>{const src=PG.list.find(x=>x.id===+b.dataset.dup);const id=PG.seq++;const m=await dbGet('M'+src.id);
@@ -756,9 +846,9 @@ function renderBook(){const g=$('#dfGrid');const L=[...PG.list].sort((a,b)=>b.da
     if(id===PG.cur){D.layers=[];PG.cur=-1;await openPage(PG.list[0].id)}else await savePages();renderBook()})}
 async function deletePageData(id){const m=await dbGet('M'+id);if(m){try{const o=JSON.parse(m);for(const l of o.layers||[])dbDel('P'+id+'L'+l.id);const sk=new Set();for(const r of o.renders||[]){dbDel('R'+r.id);if(r.srcK)sk.add(r.srcK)}sk.forEach(k=>dbDel(k))}catch(e){}}dbDel('M'+id)}
 /* sayfanın tam çözünürlüklü görseli: kayıtlı katmanlardan yeniden kurulur, açık sayfa ise doğrudan çizilir */
-async function pageCanvas(id){const c=mk(PW,PH),x=c.getContext('2d');if(id===PG.cur){compose(x,0,0,1);return c}
-  const m=await dbGet('M'+id);if(!m)return c;const o=JSON.parse(m);const t=paperTex(o.paper||'eskiz');x.fillStyle=x.createPattern(t.shade,'repeat');x.fillRect(0,0,PW,PH);
-  for(let i=0;i<o.layers.length;i++){const l=o.layers[i];if(!l.vis)continue;if(l.fog&&i>0){x.globalAlpha=(o.fog??.5)*.9;x.fillStyle=o.paper==='kraft'?'#d7bf9c':'#f8f9f6';x.fillRect(0,0,PW,PH)}
+async function pageCanvas(id){if(id===PG.cur){const c=mk(PW,PH);compose(c.getContext('2d'),0,0,1);return c}
+  const m=await dbGet('M'+id);if(!m)return mk(PW,PH);const o=JSON.parse(m);const W=o.pw||2400,H2=o.ph||1700;const c=mk(W,H2),x=c.getContext('2d');const t=paperTex(o.paper||'eskiz');x.fillStyle=x.createPattern(t.shade,'repeat');x.fillRect(0,0,W,H2);
+  for(let i=0;i<o.layers.length;i++){const l=o.layers[i];if(!l.vis)continue;if(l.fog&&i>0){x.globalAlpha=(o.fog??.5)*.9;x.fillStyle=o.paper==='kraft'?'#d7bf9c':'#f8f9f6';x.fillRect(0,0,W,H2)}
     const b=await dbGet('P'+id+'L'+l.id);if(b){try{const bm=await createImageBitmap(b);x.globalAlpha=l.op;x.drawImage(bm,0,0)}catch(e){}}x.globalAlpha=1}return c}
 const fname=(id,ext)=>{const p=PG.list.find(x=>x.id===id);return(p?p.name:'eskiz').replace(/[\\/:*?"<>|]+/g,'-').trim()+'.'+ext};
 function dlBlob(blob,name){const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000)}
@@ -792,10 +882,10 @@ window.addEventListener('pagehide',()=>{clearTimeout(svT);saveNow()});
 document.addEventListener('contextmenu',e=>{if(!(e.target.closest&&e.target.closest('input,textarea')))e.preventDefault()});
 if('serviceWorker'in navigator&&/^https?:$/.test(location.protocol)&&!/claude\.ai|claudeusercontent/.test(location.hostname))window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 const D0=JSON.parse(JSON.stringify(D));
-const GLOB=['sizes','ops','color','tool','erMode','mkTip','mkAng','mine','recent'];
-function applyUI(){buildPaper();fit();renderRail();setTool(D.tool);renderPal();updUR();$('#bSym').classList.toggle('on',D.sym);renderPanel();need();const pg=pgCur();$('#pgName').textContent=pg?pg.name:''}
+const GLOB=['sizes','ops','color','tool','erMode','mkTip','mkAng','mine','recent','wob','hold','snapA','autoLine','ruler'];
+function applyUI(){buildPaper();fit();updLn();renderRail();setTool(D.tool);renderPal();updUR();$('#bSym').classList.toggle('on',D.sym);renderPanel();need();const pg=pgCur();$('#pgName').textContent=pg?pg.name:''}
 function blankPage(){const keep={};GLOB.forEach(k=>keep[k]=JSON.parse(JSON.stringify(D[k])));const paper={paper:D.paper,pat:D.pat,patOn:D.patOn,patOp:D.patOp};
-  D=Object.assign(JSON.parse(JSON.stringify(D0)),keep,paper);const L=newLayer('Taslak',false);D.layers=[L];D.active=L.id;dirty.add(L.id)}
+  D=Object.assign(JSON.parse(JSON.stringify(D0)),keep,paper);const[nw,nh]=NEWSZ||[2400,1700];NEWSZ=null;setPageSize(nw,nh);D.grid={hy:nh*.44,v1:-nw*.55,v2:nw*1.55,c:nw/2,v3:[nw/2,nh*2.7]};D.symX=nw/2;const L=newLayer('Taslak',false);D.layers=[L];D.active=L.id;dirty.add(L.id)}
 async function openPage(id){if(RV.busy){toast('Render bitince sayfa değiştirebilirsin.',2400);return false}clearTimeout(svT);if(D.layers.length)await saveNow();
   PG.cur=id;await savePages();const keep={};GLOB.forEach(k=>keep[k]=D[k]);H.u=[];H.r=[];for(const k in WET)delete WET[k];showCrop=null;R0=null;RV.src=null;
   const ok=await load();if(ok)Object.assign(D,keep);else blankPage();applyUI();if(!ok)saveSoon();return true}

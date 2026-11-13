@@ -2,7 +2,7 @@
    Uygulama dosyaları önbellekte tutulur; internet yokken de açılır ve çizilir.
    Sayfa her açıldığında internet varsa en yeni sürüm alınır (önce ağ, olmazsa önbellek).
    Render istekleri (Gemini, OpenAI) hiç önbelleğe alınmaz. */
-const CACHE = 'eskiz-defteri-v1';
+const CACHE = 'eskiz-defteri-v2';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/maskable-512.png', 'icons/apple-touch-icon.png', 'icons/favicon-64.png'];
 
 self.addEventListener('install', e => {

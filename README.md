@@ -41,6 +41,12 @@ Adres (Pages açıldıktan sonra): **https://mfbarsiv.github.io/eskiz-defteri/**
 - **Yedek al** (Defter'de) bütün sayfaları, katmanları ve renderları tek bir `.json` dosyasına koyar. Bu dosyayı ara ara Drive'a at.
   - Chrome verisini silersen ya da tablet değişirse, **Yedekten yükle** ile hepsi geri gelir.
 
+## Yeni (v2)
+
+- **Görsel ekle** (üstte, resim + artı simgesi): ekran görüntüsünü ya da resmi seç. Sürükleyerek taşı, iki parmakla büyüt/döndür, **Tamam** de. Görsel sayfanın en altına ayrı katman olarak girer; üstüne çizersin. Panel'den gizleyebilir ya da silebilirsin.
+- **Düz çizgi**: kalemi bir noktadan diğerine çek, bir an bekle; çizgi düzleşir ama eskiz hissini korur. Alttaki **Düz** düğmesi bekleme olmadan çizgi çeker. Yanındaki dalga kaydırıcısı **eskiz hissini** ayarlar (0 = cetvel gibi). Ayarlar Panel → Düz çizgi'de.
+- **Kâğıt boyutu**: Panel → Kâğıt boyutu (A4, A3, A2, Kare, Geniş; yatay/dikey). Mevcut sayfayı büyütürsen çizimin ortada kalır. Yeni sayfa açarken de boyut sorulur.
+
 ## Güncelleme
 
 Yeni bir `index.html` gelince depoda eski dosyanın üstüne yükle. Uygulama, internet varken bir sonraki açılışta yeni sürümü alır. Gerekirse uygulamayı bir kez kapatıp aç.
